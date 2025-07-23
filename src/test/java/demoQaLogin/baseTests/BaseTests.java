@@ -28,7 +28,8 @@ public class BaseTests {
         RestAssured.baseURI = System.getProperty("baseUrl", DOMAIN);;
         RestAssured.filters(withCustomTemplates());
 
-        Configuration.remote = System.getProperty("remote.url");
+        Configuration.remote = System.getProperty("remote.url", "https://user1:1234@" +
+                System.getProperty("selenoid", "selenoid.autotests.cloud") + "/wd/hub");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
