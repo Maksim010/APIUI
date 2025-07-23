@@ -21,8 +21,8 @@ public class BaseTests {
 
     @BeforeAll
     public static void setUpBeforeClass() throws Exception {
-        Configuration.baseUrl = System.getProperty("baseUrl");
-        Configuration.browser = System.getProperty("browser");
+        Configuration.baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
+        Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.pageLoadTimeout = PAGE_LOAD_TIMEOUT;
 
         RestAssured.baseURI = System.getProperty("baseUrl", DOMAIN);;
