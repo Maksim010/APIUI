@@ -13,12 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.open;
-import static demoQaLogin.TestData.PROFILE_PATH;
 import static demoQaLogin.TestData.assertBooks;
 import static demoQaLogin.TestData.createAuthModel;
+import static demoQaLogin.TestData.createBookDate;
 import static demoQaLogin.TestData.createBooksData;
-import static io.qameta.allure.Allure.step;
 
 public class ProfileApiTests extends BaseTests {
 
@@ -32,31 +30,19 @@ public class ProfileApiTests extends BaseTests {
     void successfulAddBook() {
 
         AuthModel authModel = createAuthModel();
-
         AuthModelResponse response =
                 authorizationApi.getAuthentication(authModel);
 
         BooksList booksList = profileApi.getBooksFromBookStore(response);
-
         BooksData booksData = createBooksData(response, booksList);
 
-        step("Delete books from Profile", () ->
-                profileApi.deleteBooksFromProfile(response)
-        );
+        profileApi.deleteBooksFromProfile(response);
+        profileApi.addBookFromBookStore(booksData, response);
 
-        step("Add book to profile", () ->
-                profileApi.addBookFromBookStore(booksData, response)
-        );
-        step("Set Cookie", () ->
-                authorizationApi.setCookie(response)
-        );
+        authorizationApi.setCookie(response);
 
-        step("Open profile page", () ->
-                open(PROFILE_PATH)
-        );
-
-        step("Verify", () ->
-                profilePage.assertAddedBook(assertBooks(booksList, booksData)));
+        profilePage.openProfilePage()
+                .assertAddedBook(assertBooks(booksList, booksData));
     }
 
     @Test
@@ -65,39 +51,20 @@ public class ProfileApiTests extends BaseTests {
     void successfulDeleteBook() {
 
         AuthModel authModel = createAuthModel();
-
         AuthModelResponse response =
                 authorizationApi.getAuthentication(authModel);
 
         BooksList booksList = profileApi.getBooksFromBookStore(response);
-
         BooksData booksData = createBooksData(response, booksList);
+        BookData bookData = createBookDate(booksData, response);
 
-        BookData bookData = BookData.builder()
-                .isbn(booksData.collectionOfIsbns().get(0).isbn())
-                .userId(response.userId())
-                .build();
+        profileApi.deleteBooksFromProfile(response);
+        profileApi.addBookFromBookStore(booksData, response);
+        profileApi.deleteBookFromProfile(response, bookData);
 
-        step("Delete books from Profile", () ->
-                profileApi.deleteBooksFromProfile(response)
-        );
+        authorizationApi.setCookie(response);
 
-        step("Add book to profile", () ->
-                profileApi.addBookFromBookStore(booksData, response)
-        );
-
-        step("Delete book from Profile", () ->
-                profileApi.deleteBookFromProfile(response, bookData));
-
-        step("Set Cookie", () ->
-                authorizationApi.setCookie(response)
-        );
-
-        step("Open profile page", () ->
-                open(PROFILE_PATH)
-        );
-
-        step("Verify", () ->
-                profilePage.assertDeleteBook(assertBooks(booksList, booksData)));
+        profilePage.openProfilePage()
+                .assertDeleteBook(assertBooks(booksList, booksData));
     }
 }

@@ -2,6 +2,7 @@ package demoQaLogin.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
@@ -9,6 +10,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static com.codeborne.selenide.Selenide.open;
+import static demoQaLogin.TestData.PROFILE_PATH;
 
 public class ProfilePage {
 
@@ -49,6 +51,8 @@ public class ProfilePage {
         USERNAME_SELECTOR.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldHave(text(userName));
         return this;
     }
+
+    @Step("Assert added book in profile")
     public ProfilePage assertAddedBook(String bookName) {
         BOOK_SELECTOR.shouldHave(text(bookName));
         return this;
@@ -56,6 +60,12 @@ public class ProfilePage {
 
     public ProfilePage assertDeleteBook(String bookName) {
         BOOK_SELECTOR.shouldNotHave(text(bookName));
+        return this;
+    }
+
+    @Step("Open profile page")
+    public ProfilePage openProfilePage() {
+        open(PROFILE_PATH);
         return this;
     }
 }

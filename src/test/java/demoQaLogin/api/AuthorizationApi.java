@@ -27,6 +27,7 @@ public class AuthorizationApi {
     }
 
     public void setCookie(AuthModelResponse authModelResponse) {
+        step("Set Cookies");
         open(FAVICON_PATH);
         getWebDriver().manage().addCookie(new Cookie("userID", authModelResponse.userId()));
         getWebDriver().manage().addCookie(new Cookie("expires", authModelResponse.expires()));

@@ -10,11 +10,9 @@ import org.aeonbits.owner.Config;
 public interface AppConfig extends Config {
 
     @Key("webUrl")
-    @DefaultValue("https://demoqa.com")
     String webUrl();
 
     @Key("apiUrl")
-    @DefaultValue("https://demoqa.com")
     String apiUrl();
 
 }

@@ -1,6 +1,7 @@
 package demoQaLogin;
 
 import demoQaLogin.models.request.AuthModel;
+import demoQaLogin.models.request.BookData;
 import demoQaLogin.models.request.BooksData;
 import demoQaLogin.models.request.CollectionOfIsbn;
 import demoQaLogin.models.response.AuthModelResponse;
@@ -57,5 +58,12 @@ public class TestData {
                 .map(BooksCollectionResponse::title).
                 findFirst()
                 .orElseThrow(NotFoundException::new);
+    }
+
+    public static BookData createBookDate(BooksData booksData, AuthModelResponse response) {
+        return BookData.builder()
+                .isbn(booksData.collectionOfIsbns().get(0).isbn())
+                .userId(response.userId())
+                .build();
     }
 }

@@ -44,7 +44,7 @@ public class ProfileApi {
     }
 
     public void deleteBooksFromProfile(AuthModelResponse authModelResponse) {
-         step("Delete Books from Book Store", () ->
+         step("Delete Books from Profile", () ->
                 given()
                         .spec(profileDeleteBooksRequestSpec)
                         .header("Authorization", "Bearer " + authModelResponse.token())
@@ -56,7 +56,7 @@ public class ProfileApi {
     }
 
     public void deleteBookFromProfile(AuthModelResponse authModelResponse, BookData bookData) {
-         step("Delete Book from Book Store", () ->
+         step("Delete Book from Profile", () ->
                 given()
                         .spec(profileDeleteBookRequestSpec)
                         .body(bookData)

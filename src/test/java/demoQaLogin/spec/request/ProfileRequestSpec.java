@@ -1,12 +1,11 @@
 package demoQaLogin.spec.request;
 
-import demoQaLogin.baseTests.BaseTests;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.with;
 
-public class ProfileRequestSpec extends BaseTests {
+public class ProfileRequestSpec {
 
     private static final String BOOKS_COLLECTION_PATH = "/BookStore/v1/Books";
     private static final String BOOK_COLLECTION_PATH = "/BookStore/v1/Book";
